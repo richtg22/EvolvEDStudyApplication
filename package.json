@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-scripts": "file:temp/react-scripts.tgz"
+  }
+}
