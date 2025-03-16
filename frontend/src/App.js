@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react"; // ✅ Import hooks
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Groups from "./pages/Groups";
+import Discussions from "./pages/Discussions";
+import Meetings from "./pages/Meetings";
+import Profile from "./pages/Profile"; // Import Profile Page
 
 function App() {
+  // State to store API message
   const [message, setMessage] = useState("Loading...");
 
+  // Fetch data from Django backend
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/test/")
       .then((res) => {
@@ -14,14 +19,32 @@ function App() {
         return res.json();
       })
       .then((data) => setMessage(data.message))
-      .catch((err) => setMessage("Failed to Connect to API"));
+      .catch(() => setMessage("Failed to Connect to API"));
   }, []);
 
   return (
-    <div>
-      <h1>React & Django Integration Test</h1>
-      <p>{message}</p>
-    </div>
+    <Router>
+      <div>
+        {/* API Response Message */}
+        <h1>React & Django Integration Test</h1>
+        <p>{message}</p>
+
+        {/* Routes Configuration */}
+        <Routes>
+          {/* Redirect "/" to "/groups" */}
+          <Route path="/" element={<Navigate to="/groups" />} />
+
+          {/* Pages */}
+          <Route path="/groups" element={<Groups />} />
+          <Route path="/discussions" element={<Discussions />} />
+          <Route path="/meetings" element={<Meetings />} />
+          <Route path="/profile" element={<Profile />} />
+
+          {/* Redirect unknown routes to "/groups" */}
+          <Route path="*" element={<Navigate to="/groups" />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -1,0 +1,203 @@
+/* Page Layout */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #e5f4d7; /* Green Background Restored */
+}
+
+/* Sidebar and Content Layout */
+.content-wrapper {
+  display: flex;
+  flex-grow: 1;
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  padding: 80px 20px 20px;
+  text-align: center;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 25px;
+  padding: 5px;
+  width: 60%;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 25px;
+  flex-grow: 1;
+}
+
+.search-btn {
+  background-color: #2f6f1f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 50%;
+}
+
+/* Green Discussion Cards */
+.discussion-card {
+  background: #97c37b;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: white;
+  text-align: left;
+}
+
+/* No results message */
+.no-results {
+  font-size: 18px;
+  font-weight: bold;
+  color: #7e6a54;
+}
+
+/* Right Sidebar */
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* "Start New Discussion" Button */
+.start-discussion-btn {
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: #2f6f1f;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* All Discussions Box */
+.discussion-box {
+  background: #e3e1cf;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.discussion-title {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.discussion-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  background-color: #7e6a54;
+  color: white;
+  text-align: right;
+  padding: 15px;
+  margin-top: auto;
+}
+/* Discussion Cards */
+.discussion-card {
+  background: #97c37b;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: white;
+  text-align: left;
+}
+
+/* No results message */
+.no-results {
+  font-size: 18px;
+  font-weight: bold;
+  color: #7e6a54;
+}
+
+/* Modal Styling */
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* View More Button */
+.view-more-btn {
+  background-color: #2f6f1f;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 15px;
+}
+.start-discussion-btn {
+  font-size: 12px;  /* Smaller text */
+  padding: 6px 12px;  /* Adjust padding */
+  border-radius: 5px;  /* Slightly rounded */
+  background-color: #2f6f1f;  /* Green */
+  color: white;
+  border: none;
+  display: inline-block; /* Ensure it is displayed */
+  margin: 10px 0; /* Ensure spacing */
+}
+/* Discussion Card */
+.discussion-card {
+  background: #d1aa8d;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+/* Right Sidebar */
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.discussion-box {
+  background: #e3e1cf;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  padding: 5px;
+  width: 60%;
+}
+
+.search-btn {
+  background-color: #2f6f1f;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 50%;
+}

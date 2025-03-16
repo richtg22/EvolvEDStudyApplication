@@ -1,4 +1,4 @@
-import { refreshToken } from "./utils/auth";
+import { refreshToken } from "../utils/auth";
 
 const fetchDiscussions = async () => {
   let token = localStorage.getItem("access_token"); // Get token
