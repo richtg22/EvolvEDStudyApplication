@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -21,5 +21,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Get new access token
     # path("", home),  # API home response
     # React Frontend
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+    path("", TemplateView.as_view(template_name='index.html')),
 ]

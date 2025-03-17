@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,8 @@ SECRET_KEY = 'django-insecure-8(-&&yod6jdpj=!5_rjx+b2%f@f!=zi*^fk$jigyxm_3()ez(4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
 
 
 # Application definition
@@ -72,17 +74,22 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React Development
+    "http://localhost:3001",
     "http://127.0.0.1:8000",  # Django Server
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),  
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),  
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),  
     "ROTATE_REFRESH_TOKENS": True,  
     "BLACKLIST_AFTER_ROTATION": True,  
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": "your_secret_key_here",  
-    "VERIFYING_KEY": None,
+    "SIGNING_KEY": "zYvlmq1pmwyWvE7NuT3s0UInrtb2IuYeGE9HWFFx6hjkngh2yb8RG19KDdDF5tTezug",  
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
@@ -159,7 +166,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -175,3 +181,13 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+load_dotenv() 
+
+ZOOM_ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
+ZOOM_CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
+ZOOM_CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
+ZOOM_BASE_URL = os.getenv("ZOOM_BASE_URL")
+
+if not ZOOM_CLIENT_ID or not ZOOM_CLIENT_SECRET or not ZOOM_ACCOUNT_ID:
+    print("Error: Zoom API credentials are missing in .env file")
