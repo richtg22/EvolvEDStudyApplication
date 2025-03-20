@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Discussion, Reply
 from .serializers import DiscussionSerializer, ReplySerializer
 from users.decorators import role_required
+from groups.models import StudyGroup
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -12,19 +13,31 @@ from users.decorators import role_required
 def create_discussion(request):
     """ Allow students and tutors to create discussions. """
     data = request.data
-    discussion = Discussion.objects.create(
-        title=data['title'],
-        content=data['content'],
-        created_by=request.user,
-        group_id=data['group_id']
-    )
-    return Response(DiscussionSerializer(discussion).data, status=status.HTTP_201_CREATED)
+    try:
+        group = StudyGroup.objects.get(id=data['group_id'])
 
-@api_view(['GET'])
+        discussion = Discussion.objects.create(
+            title=data['title'],
+            content=data['content'],
+            created_by=request.user,
+            group=group  # Assign the actual group instance, not just `group_id`
+        )
+        return Response(DiscussionSerializer(discussion).data, status=status.HTTP_201_CREATED)
+    
+    except StudyGroup.DoesNotExist:
+        return Response({"error": "Invalid group ID. Group not found."}, status=status.HTTP_400_BAD_REQUEST)
+    except KeyError:
+        return Response({"error": "Missing required fields. Ensure 'title', 'content', and 'group_id' are provided."},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def view_discussions(request):
-    """ List all discussions. """
-    discussions = Discussion.objects.all()
-    return Response(DiscussionSerializer(discussions, many=True).data)
+    user = request.user
+    discussions = Discussion.objects.all()  
+    serializer = DiscussionSerializer(discussions, many=True)
+    return Response(serializer.data)  
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

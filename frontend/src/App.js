@@ -1,78 +1,69 @@
-import React, { useEffect, useState } from "react";
-import {
-    fetchUserProfile,
-    fetchGroups,
-    fetchDiscussions,
-    fetchMeetings,
-    scheduleMeeting
-} from "./api/backend";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './Home';
+import Login from './Login';
+import Register from './Register';
+import Dashboard from './Dashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Groups from './Groups';
+import Discussion from './Discussions';
+import Meetings from './Meetings';
+import Settings from './Settings';
+import { isAuthenticated } from './utils/auth';
+import './App.css';
+
+// Protected route component
+const ProtectedRoute = ({ children }) => {
+  const isAuth = isAuthenticated();
+  console.log("ProtectedRoute: Is Authenticated?", isAuth);
+
+  if (!isAuth) {
+    console.log("User not authenticated! Redirecting...");
+    return <Navigate to="/login" replace />;
+  }
+
+  console.log("User authenticated! Showing page...");
+  return children;
+};
+
 
 function App() {
-    const [user, setUser] = useState(null);
-    const [groups, setGroups] = useState([]);
-    const [discussions, setDiscussions] = useState([]);
-    const [meetings, setMeetings] = useState([]);
-
-    useEffect(() => {
-        const token = localStorage.getItem("access_token");
-
-        async function loadData() {
-            if (token) {
-                const userData = await fetchUserProfile(token);
-                setUser(userData);
-            }
-            setGroups(await fetchGroups());
-            setDiscussions(await fetchDiscussions());
-            setMeetings(await fetchMeetings());
-        }
-
-        loadData();
-    }, []);
-
-    const handleScheduleMeeting = async () => {
-        const token = localStorage.getItem("access_token");
-        const meetingDetails = {
-            topic: "New Zoom Meeting",
-            start_time: new Date().toISOString(),
-            duration: 30,
-            agenda: "Integration with Backend",
-            is_recurring: true,
-            recurrence_type: "weekly",
-            recurrence_interval: 1
-        };
-        const response = await scheduleMeeting(meetingDetails, token);
-        console.log("Scheduled Meeting:", response);
-    };
-
-    return (
-        <div>
-            <h1>Welcome {user ? user.username : "Guest"}!</h1>
-
-            <h2>Groups</h2>
-            <ul>
-                {groups.map((group) => (
-                    <li key={group.id}>{group.name}</li>
-                ))}
-            </ul>
-
-            <h2>Discussions</h2>
-            <ul>
-                {discussions.map((discussion) => (
-                    <li key={discussion.id}>{discussion.title}</li>
-                ))}
-            </ul>
-
-            <h2>Meetings</h2>
-            <button onClick={handleScheduleMeeting}>Schedule Meeting</button>
-            <ul>
-                {meetings.map((meeting) => (
-                    <li key={meeting.id}>
-                        {meeting.topic} - <a href={meeting.zoom_join_url}>Join</a>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/groups" element={
+          <ProtectedRoute>
+            <Groups />
+          </ProtectedRoute>
+        } />
+        <Route path="/discussions" element={
+          <ProtectedRoute>
+            <Discussion /> 
+          </ProtectedRoute>
+        } />
+        <Route path="/meetings" element={
+          <ProtectedRoute>
+            <Meetings /> 
+          </ProtectedRoute>
+        } />
+       
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

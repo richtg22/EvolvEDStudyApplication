@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'users',
     'groups',
@@ -55,6 +56,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 AUTH_USER_MODEL = 'users.User'
@@ -74,23 +78,23 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React Development
-    "http://localhost:3001",
     "http://127.0.0.1:8000",  # Django Server
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
-    "http://localhost:3001",
 ]
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),  
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),  
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),  
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  
     "ROTATE_REFRESH_TOKENS": True,  
     "BLACKLIST_AFTER_ROTATION": True,  
     "ALGORITHM": "HS256",
     "SIGNING_KEY": "zYvlmq1pmwyWvE7NuT3s0UInrtb2IuYeGE9HWFFx6hjkngh2yb8RG19KDdDF5tTezug",  
     "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_BLACKLIST_ENABLED": True,
 }
 
 CORS_ALLOW_CREDENTIALS = True

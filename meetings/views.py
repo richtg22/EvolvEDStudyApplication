@@ -11,7 +11,7 @@ from users.decorators import role_required
 from .utils import generate_zoom_oauth_token
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])  # Require authentication
+@permission_classes([IsAuthenticated])  
 @role_required(['tutor', 'admin'])
 def schedule_zoom_meeting(request):
     """API to schedule a Zoom meeting"""
@@ -54,7 +54,6 @@ def schedule_zoom_meeting(request):
     if response.status_code == 201:
         meeting_info = response.json()
         
-        # Ensure you only pass valid fields to the model
         meeting = Meeting.objects.create(
             topic=request.data.get("topic"),
             start_time=request.data.get("start_time"),
